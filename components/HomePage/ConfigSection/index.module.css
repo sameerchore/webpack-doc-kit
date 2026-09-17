@@ -4,11 +4,14 @@
   @apply flex
     justify-center
     w-full
-    py-20
-    border-neutral-200
-    bg-neutral-100
-    dark:border-neutral-800
-    dark:bg-[#070c13];
+    border-y
+    border-[#e2e8f0]
+    bg-[#f8fafc]
+    py-24
+    transition-colors
+    duration-200
+    dark:border-[#334155]
+    dark:bg-[#0f172a];
 }
 
 .container {
@@ -16,7 +19,7 @@
     w-[80%]
     max-w-7xl
     flex-col
-    gap-3;
+    gap-10;
 }
 
 .configHeader {
@@ -26,30 +29,43 @@
 }
 
 .preTitle {
-  @apply mb-4
+  @apply mb-8
     flex
     items-center
-    justify-center
-    text-[0.85rem]
-    font-normal
+    gap-3
+    text-[0.72rem]
+    font-semibold
     uppercase
-    tracking-wider
-    text-blue-700
-    dark:text-blue-500
-    lg:justify-start;
+    tracking-[0.18em]
+    text-blue-600
+    before:block
+    before:h-px
+    before:w-8
+    before:bg-blue-600
+    dark:text-blue-400
+    dark:before:bg-blue-400;
 }
 
 .title {
   @apply text-4xl
-    mb-4;
+    mb-6
+    max-w-2xl
+    font-serif
+    font-semibold
+    leading-[0.98]
+    tracking-tight
+    text-[#0f172a]
+    md:text-5xl
+    dark:text-[#f8fafc];
 }
 
 .subtext {
-  @apply mb-8
+  @apply mb-0
+    max-w-xl
     text-lg
     leading-relaxed
-    text-neutral-800
-    dark:text-neutral-500;
+    text-[#334155]
+    dark:text-[#cbd5e1];
 }
 
 .configGrid {
@@ -57,15 +73,42 @@
     w-full
     flex-col
     items-start
-    gap-12
+    gap-14
     lg:flex-row
-    lg:items-start;
+    lg:items-center;
 }
 
 .configGrid > * {
   @apply w-full
     min-w-0
     lg:flex-1;
+}
+
+.codePanel {
+  @apply overflow-hidden
+    rounded-xl
+    border
+    border-[#cbd5e1]
+    bg-white
+    p-2
+    shadow-sm
+    transition-colors
+    duration-200
+    dark:border-[#334155]
+    dark:bg-[#020617]
+    dark:shadow-[0_0_32px_rgba(30,64,175,0.12)];
+}
+
+.codePanel > * {
+  @apply !m-0
+    !w-full
+    !max-w-none
+    rounded-lg;
+}
+
+.codePanel pre,
+.codePanel code {
+  @apply font-mono;
 }
 
 .configGrid code {
@@ -76,23 +119,29 @@
 .features {
   @apply flex
     flex-1
-    flex-col;
+    flex-col
+    border-l-2
+    border-blue-500
+    pl-5
+    dark:border-blue-400;
 }
 
 .featuresTitle {
   @apply mb-4
     text-2xl
     font-normal
-    text-neutral-900
-    dark:text-white;
+    font-serif
+    font-semibold
+    text-[#0f172a]
+    dark:text-[#f8fafc];
 }
 
 .featuresText {
   @apply mb-4
     text-base
     leading-relaxed
-    text-neutral-800
-    dark:text-neutral-400;
+    text-[#475569]
+    dark:text-[#94a3b8];
 }
 
 .checkList {
@@ -107,8 +156,8 @@
     gap-3
     text-sm
     font-medium
-    text-neutral-800
-    dark:text-neutral-300;
+    text-[#1e293b]
+    dark:text-[#e2e8f0];
 }
 
 .checkIcon {

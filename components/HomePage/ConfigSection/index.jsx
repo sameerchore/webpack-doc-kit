@@ -23,8 +23,6 @@ export default ({ children }) => {
         </div>
 
         <div className={styles.configGrid}>
-          {/* rendering the code block described at root index.md*/}
-          {children}
           <div className={styles.features}>
             <h3 className={styles.featuresTitle}>Loaders for any input</h3>
             <p className={styles.featuresText}>
@@ -51,6 +49,9 @@ export default ({ children }) => {
               ))}
             </ul>
           </div>
+
+          {/* rendering the code block described at root index.md*/}
+          <div className={styles.codePanel}>{children}</div>
         </div>
       </div>
     </section>
