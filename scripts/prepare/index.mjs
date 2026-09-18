@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, rmSync, unlinkSync } from 'node:fs';
+import { existsSync, mkdirSync, rmSync, unlinkSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
@@ -12,6 +12,13 @@ const execOptions = {
 };
 
 const fetchWebpack = version => {
+  const destination = join(CACHE_DIR, version);
+
+  if (existsSync(join(destination, 'package.json'))) {
+    console.log(`Using cached webpack ${version}`);
+    return;
+  }
+
   console.log(`Fetching webpack ${version}`);
 
   const result = JSON.parse(
@@ -23,7 +30,6 @@ const fetchWebpack = version => {
   );
   const { filename } = Array.isArray(result) ? result[0] : result;
   const archive = join(CACHE_DIR, filename);
-  const destination = join(CACHE_DIR, version);
 
   rmSync(destination, { recursive: true, force: true });
   mkdirSync(destination, { recursive: true });
@@ -35,7 +41,6 @@ const fetchWebpack = version => {
   unlinkSync(archive);
 };
 
-rmSync(CACHE_DIR, { recursive: true, force: true });
 mkdirSync(CACHE_DIR, { recursive: true });
 
 const versions = JSON.parse(await readFile('./versions.json'));
