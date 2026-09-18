@@ -13,12 +13,10 @@ const execOptions = {
 
 const fetchWebpack = version => {
   const destination = join(CACHE_DIR, version);
-
   if (existsSync(join(destination, 'package.json'))) {
     console.log(`Using cached webpack ${version}`);
     return;
   }
-
   console.log(`Fetching webpack ${version}`);
 
   const result = JSON.parse(
