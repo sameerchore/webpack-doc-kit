@@ -18,7 +18,7 @@
 }
 
 .webpack {
-  @apply pb-20
+  @apply pb-18
     flex
     max-w-6xl
     w-[75%]
@@ -28,14 +28,17 @@
     gap-16
     text-center
     lg:flex-row
-    lg:gap-10
+    lg:gap-5
     lg:text-left;
 }
 
 .description {
-  @apply w-full
+  @apply flex
+    flex-col
+    w-full
     max-w-full
     flex-1
+    gap-5
     lg:max-w-[520px];
 }
 
@@ -44,35 +47,36 @@
     flex
     items-center
     justify-center
-    text-[0.85rem]
-    font-normal
+    gap-2
+    text-[0.8rem]
+    font-semibold
     uppercase
-    tracking-wider
+    tracking-[0.16em]
     text-blue-600
     dark:text-blue-500
     lg:justify-start;
 }
 
 .dot {
-  @apply mr-2
-    inline-block
-    h-1.5
-    w-1.5
-    rounded-full
+  @apply inline-block
+    h-px
+    w-6
     bg-blue-600
     dark:bg-blue-500;
 }
 
 .title {
   @apply mb-2
-    font-normal
-    text-5xl
-    leading-[1.1]
-    md:text-6xl;
+    text-[3.5rem]
+    font-semibold
+    leading-none
+    tracking-tight
+    md:text-[3rem];
 }
 
 .highlight {
-  @apply text-blue-600
+  @apply font-semibold
+    text-blue-600
     dark:text-blue-500;
 }
 
@@ -176,19 +180,40 @@
 }
 
 .stats {
-  @apply flex
+  @apply grid
+    grid-cols-2
     w-[90%]
     max-w-350
-    flex-col
     items-center
     justify-center
-    gap-6
-    py-6
+    gap-0
+    py-3
     text-center
-    dark:border-neutral-800
-    lg:flex-row
-    lg:justify-around
-    lg:gap-0;
+    md:grid-cols-4;
+}
+
+.statItem {
+  @apply w-full
+    py-3;
+}
+
+.statItem:nth-child(even) {
+  border-left: 1px solid var(--color-neutral-200);
+}
+
+.statItem:nth-child(n + 3) {
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+@media (min-width: 48rem) {
+  .statItem:nth-child(n + 3) {
+    border-top: 0;
+  }
+}
+
+:global([data-theme='dark']) .statItem:nth-child(even),
+:global([data-theme='dark']) .statItem:nth-child(n + 3) {
+  border-color: var(--color-neutral-800);
 }
 
 .statItem h2 {

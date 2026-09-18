@@ -26,19 +26,30 @@
   @apply mb-4
     flex
     items-center
-    justify-center
-    text-[0.85rem]
-    font-normal
+    justify-start
+    gap-3
+    text-[0.72rem]
+    font-semibold
     uppercase
-    tracking-wider
+    tracking-[0.18em]
     text-blue-600
-    dark:text-blue-500
-    lg:justify-start;
+    before:block
+    before:h-px
+    before:w-8
+    before:bg-blue-600
+    dark:text-blue-400
+    dark:before:bg-blue-400;
 }
 
 .title {
-  @apply text-4xl
-    mb-4;
+  @apply mb-4
+    max-w-2xl
+    text-[2.2rem]
+    font-semibold
+    leading-[1.4]
+    tracking-tight
+    text-[#32434a]
+    dark:text-[#f8fafc];
 }
 
 .subtext {

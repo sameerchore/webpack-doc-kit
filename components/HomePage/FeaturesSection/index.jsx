@@ -61,8 +61,8 @@ export default () => {
         </div>
 
         <div className={styles.gridContainer}>
-          {Features.map((feature, index) => (
-            <div key={index} className={styles.card}>
+          {Features.map(feature => (
+            <div key={feature.title} className={styles.card}>
               <div className={styles.iconWrapper}>{feature.icon}</div>
               <h3 className={styles.cardTitle}>{feature.title}</h3>
               <p className={styles.cardDesc}>{feature.description}</p>

@@ -20,7 +20,6 @@ export default ({ children }) => {
               splitting allows for loading parts of the application on demand —
               designed for modern JavaScript apps.
             </p>
-            {/* rendering the code block described at root index.md*/}
             <div className={styles.codeWrapper}>{children}</div>
 
             <div className={styles.actions}>
