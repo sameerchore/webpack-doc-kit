@@ -13,6 +13,8 @@ const execOptions = {
 
 const fetchWebpack = version => {
   const destination = join(CACHE_DIR, version);
+
+  // Reuse sources restored from CI or a previous local build.
   if (existsSync(join(destination, 'package.json'))) {
     console.log(`Using cached webpack ${version}`);
     return;
