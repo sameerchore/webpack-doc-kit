@@ -1,5 +1,11 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, rmSync, unlinkSync } from 'node:fs';
+import {
+  existsSync,
+  mkdirSync,
+  rmSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
@@ -13,9 +19,10 @@ const execOptions = {
 
 const fetchWebpack = version => {
   const destination = join(CACHE_DIR, version);
+  const completionMarker = join(destination, '.complete');
 
   // Reuse sources restored from CI or a previous local build.
-  if (existsSync(join(destination, 'package.json'))) {
+  if (existsSync(completionMarker)) {
     console.log(`Using cached webpack ${version}`);
     return;
   }
@@ -39,6 +46,7 @@ const fetchWebpack = version => {
     execOptions
   );
   unlinkSync(archive);
+  writeFileSync(completionMarker, '');
 };
 
 mkdirSync(CACHE_DIR, { recursive: true });
