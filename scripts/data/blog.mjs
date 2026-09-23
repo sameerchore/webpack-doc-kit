@@ -23,7 +23,9 @@ const normalizeDate = (value, file, source) => {
   const rawDate = source
     .match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/)?.[1]
     ?.match(/^date:\s*(.*?)\s*$/m)?.[1];
-  const calendar = rawDate?.match(/^['"]?(\d{4})-(\d{2})-(\d{2})/);
+  const calendar = rawDate?.match(
+    /^['"]?(\d{4})-(\d{1,2})-(\d{1,2})(?:(?:[Tt]|[ \t]+)(\d{1,2}):(\d{2})(?::(\d{2}))?)?/
+  );
 
   if (
     calendar &&
@@ -31,7 +33,10 @@ const normalizeDate = (value, file, source) => {
       Number(calendar[2]) > 12 ||
       Number(calendar[3]) < 1 ||
       Number(calendar[3]) >
-        daysInMonth(Number(calendar[1]), Number(calendar[2])))
+        daysInMonth(Number(calendar[1]), Number(calendar[2])) ||
+      (calendar[4] !== undefined && Number(calendar[4]) > 23) ||
+      (calendar[5] !== undefined && Number(calendar[5]) > 59) ||
+      (calendar[6] !== undefined && Number(calendar[6]) > 59))
   ) {
     const display = JSON.stringify(rawDate.trim());
     throw new Error(

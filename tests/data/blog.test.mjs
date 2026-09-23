@@ -66,6 +66,32 @@ test('rejects nonexistent calendar dates', async t => {
   });
 });
 
+test('rejects one-digit dates that roll over', async t => {
+  const root = await createFixture(
+    '---\ndate: 2024-2-30 10:00:00\n---\n# Test\n'
+  );
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  await assert.rejects(runFixture(root), error => {
+    assert.match(error.stderr, /Invalid blog date/);
+    assert.match(error.stderr, /2024-2-30/);
+    return true;
+  });
+});
+
+test('rejects out-of-range time components', async t => {
+  const root = await createFixture(
+    '---\ndate: 2024-01-01 25:60:60\n---\n# Test\n'
+  );
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  await assert.rejects(runFixture(root), error => {
+    assert.match(error.stderr, /Invalid blog date/);
+    assert.match(error.stderr, /25:60:60/);
+    return true;
+  });
+});
+
 test('reports the file for a missing blog date', async t => {
   const root = await createFixture('---\ntitle: Test\n---\n# Test\n');
   t.after(() => rm(root, { recursive: true, force: true }));
