@@ -48,7 +48,7 @@ test('reports the file for an invalid blog date', async t => {
   t.after(() => rm(root, { recursive: true, force: true }));
 
   await assert.rejects(runFixture(root), error => {
-    assert.match(error.stderr, /Invalid blog date/);
+    assert.match(error.stderr, /InvalidBlogDateError: Invalid blog date/);
     assert.match(error.stderr, /pages[\\/]blog[\\/]posts[\\/]example\.md/);
     assert.match(error.stderr, /not-a-date/);
     return true;

@@ -11,6 +11,16 @@ const OUTPUT = join(ROOT, 'generated', 'blog.json');
 
 const titleFromBody = body => body.match(/^#\s+(.+)$/m)?.[1].trim() ?? null;
 
+class InvalidBlogDateError extends Error {
+  constructor(file, display) {
+    super(
+      `Invalid blog date in ${join('pages', 'blog', 'posts', file)}: ${display} ` +
+        '(expected an ISO 8601 date or timestamp)'
+    );
+    this.name = 'InvalidBlogDateError';
+  }
+}
+
 const daysInMonth = (year, month) => {
   if (month === 2) {
     return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0) ? 29 : 28;
@@ -39,10 +49,7 @@ const normalizeDate = (value, file, source) => {
       (calendar[6] !== undefined && Number(calendar[6]) > 59))
   ) {
     const display = JSON.stringify(rawDate.trim());
-    throw new Error(
-      `Invalid blog date in ${join('pages', 'blog', 'posts', file)}: ${display} ` +
-        '(expected an ISO 8601 date or timestamp)'
-    );
+    throw new InvalidBlogDateError(file, display);
   }
 
   const date =
@@ -56,10 +63,7 @@ const normalizeDate = (value, file, source) => {
     const displayValue = rawDate?.trim() || value;
     const display =
       displayValue === undefined ? '<missing>' : JSON.stringify(displayValue);
-    throw new Error(
-      `Invalid blog date in ${join('pages', 'blog', 'posts', file)}: ${display} ` +
-        '(expected an ISO 8601 date or timestamp)'
-    );
+    throw new InvalidBlogDateError(file, display);
   }
 
   return date.toISOString();
