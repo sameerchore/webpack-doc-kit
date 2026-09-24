@@ -44,7 +44,11 @@ const normalizeDate = (value, file, source) => {
       Number(calendar[3]) < 1 ||
       Number(calendar[3]) >
         daysInMonth(Number(calendar[1]), Number(calendar[2])) ||
-      (calendar[4] !== undefined && Number(calendar[4]) > 23) ||
+      (calendar[4] !== undefined &&
+        (Number(calendar[4]) > 24 ||
+          (Number(calendar[4]) === 24 &&
+            (Number(calendar[5]) !== 0 ||
+              (calendar[6] !== undefined && Number(calendar[6]) !== 0))))) ||
       (calendar[5] !== undefined && Number(calendar[5]) > 59) ||
       (calendar[6] !== undefined && Number(calendar[6]) > 59))
   ) {

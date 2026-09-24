@@ -92,6 +92,28 @@ test('rejects out-of-range time components', async t => {
   });
 });
 
+test('accepts ISO end-of-day timestamps', async t => {
+  for (const value of ['2026-09-22T24:00:00Z', '2026-09-22 24:00']) {
+    const root = await createFixture(`---\ndate: '${value}'\n---\n# Test\n`);
+    t.after(() => rm(root, { recursive: true, force: true }));
+
+    await runFixture(root);
+  }
+});
+
+test('rejects nonzero end-of-day time components', async t => {
+  const root = await createFixture(
+    "---\ndate: '2026-09-22T24:00:01Z'\n---\n# Test\n"
+  );
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  await assert.rejects(runFixture(root), error => {
+    assert.match(error.stderr, /Invalid blog date/);
+    assert.match(error.stderr, /24:00:01/);
+    return true;
+  });
+});
+
 test('reports the file for a missing blog date', async t => {
   const root = await createFixture('---\ntitle: Test\n---\n# Test\n');
   t.after(() => rm(root, { recursive: true, force: true }));
