@@ -28,8 +28,11 @@ const createFixture = async content => {
   return root;
 };
 
-const runFixture = root =>
-  execFileAsync(process.execPath, ['scripts/data/blog.mjs'], { cwd: root });
+const runFixture = (root, timeZone = 'UTC') =>
+  execFileAsync(process.execPath, ['scripts/data/blog.mjs'], {
+    cwd: root,
+    env: { ...process.env, TZ: timeZone },
+  });
 
 test('generates blog data for valid dates', async t => {
   const root = await createFixture("---\ndate: '2026-09-22'\n---\n# Test\n");
@@ -41,6 +44,27 @@ test('generates blog data for valid dates', async t => {
   );
 
   assert.equal(posts[0].date, '2026-09-22T00:00:00.000Z');
+});
+
+test('normalizes offset-less quoted date-times as UTC', async t => {
+  const root = await createFixture(
+    "---\ndate: '2026-09-22 10:00'\n---\n# Test\n"
+  );
+  t.after(() => rm(root, { recursive: true, force: true }));
+
+  const dates = [];
+  for (const timeZone of ['UTC', 'America/Los_Angeles']) {
+    await runFixture(root, timeZone);
+    const posts = JSON.parse(
+      await readFile(join(root, 'generated', 'blog.json'), 'utf8')
+    );
+    dates.push(posts[0].date);
+  }
+
+  assert.deepEqual(dates, [
+    '2026-09-22T10:00:00.000Z',
+    '2026-09-22T10:00:00.000Z',
+  ]);
 });
 
 test('reports the file for an invalid blog date', async t => {

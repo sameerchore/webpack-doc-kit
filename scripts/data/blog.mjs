@@ -60,7 +60,13 @@ const normalizeDate = (value, file, source) => {
     value instanceof Date
       ? value
       : typeof value === 'string' && value.trim()
-        ? new Date(value)
+        ? new Date(
+            /^\d{4}-\d{1,2}-\d{1,2}(?:[Tt]|[ \t]+)\d{1,2}:\d{2}(?::\d{2}(?:\.\d+)?)?$/.test(
+              value.trim()
+            )
+              ? `${value.trim().replace(/[ \t]+/, 'T')}Z`
+              : value
+          )
         : null;
 
   if (!date || Number.isNaN(date.getTime())) {
